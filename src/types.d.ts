@@ -5,3 +5,9 @@ export type Idea = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type SortOptions =
+  | "creation-date-asc"
+  | "creation-date-desc"
+  | "title-asc"
+  | "title-desc";

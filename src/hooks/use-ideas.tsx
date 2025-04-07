@@ -1,4 +1,4 @@
-import { Idea } from "@/types";
+import { Idea, SortOptions } from "@/types";
 import { useMemo, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { toast } from "sonner";
@@ -8,9 +8,10 @@ export const useIdeas = () => {
     "ideas",
     {}
   );
-  const [sort, setSort] = useLocalStorage<
-    "creation-date-asc" | "creation-date-desc" | "title-asc" | "title-desc"
-  >("sort", "creation-date-desc");
+  const [sort, setSort] = useLocalStorage<SortOptions>(
+    "sort",
+    "creation-date-desc"
+  );
   const [latestId, setLatestId] = useState<string | null>(null);
 
   const removeIdea = (id: string) => {
@@ -43,7 +44,6 @@ export const useIdeas = () => {
     setTimeout(() => setLatestId(null), 1500);
     toast.message("Idea added", {
       description: "Your new idea has been successfully created.",
-      position: "top-right",
     });
   };
 
@@ -88,9 +88,9 @@ export const useIdeas = () => {
         case "creation-date-desc":
           return +new Date(a.createdAt) > +new Date(b.createdAt) ? -1 : 1;
         case "title-asc":
-          return a.title < b.title ? -1 : 1;
+          return a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1;
         case "title-desc":
-          return b.title < a.title ? -1 : 1;
+          return b.title.toLowerCase() < a.title.toLowerCase() ? -1 : 1;
       }
     });
   }, [ideasMap, sort]);
