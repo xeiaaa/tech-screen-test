@@ -40,7 +40,7 @@ const DeleteIdeaDialog = ({ handleDelete }: { handleDelete: () => void }) => {
           <Button type="button" variant="ghost" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-          <Button onClick={handleDelete}>Add</Button>
+          <Button onClick={handleDelete}>Confirm</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

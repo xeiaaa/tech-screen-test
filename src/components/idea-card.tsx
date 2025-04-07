@@ -34,7 +34,7 @@ const IdeaCard = ({ idea, latestId, editIdea, removeIdea }: IdeaCardProps) => {
               onSave={(e) => {
                 const value = (e?.target as HTMLInputElement).value;
                 editIdea(idea.id, { title: value });
-                console.log(value);
+                // console.log(value);
               }}
             />
           </CardTitle>

@@ -27,7 +27,7 @@ const EditableTextArea = ({
         onSave={(e) => {
           const value = (e?.target as HTMLInputElement).value;
           editIdea(idea.id, { description: value });
-          console.log(value);
+          // console.log(value);
         }}
       >
         <Input
