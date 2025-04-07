@@ -67,7 +67,8 @@ const AddIdeaDialog = ({
               value={description}
               maxLength={DESCRIPTION_MAX_LENGTH}
               onChange={(e) => setDescription(e.target.value)}
-              className="pr-14 h-24 resize-none"
+              className="pr-14 h-24 resize-none whitespace-break-spaces"
+              style={{ wordBreak: "break-word" }}
             />
             {description.length >= 100 && (
               <span className="absolute bottom-1 right-2 text-xs text-muted-foreground">
