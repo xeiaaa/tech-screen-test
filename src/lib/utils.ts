@@ -6,8 +6,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatDate(isoDate: string): string {
-  const updated = DateTime.fromISO(isoDate);
+export function formatDate(timestamp: number): string {
+  const updated = DateTime.fromMillis(timestamp);
   const now = DateTime.now();
   const diffInSeconds = now.diff(updated, "seconds").seconds;
 

@@ -27,7 +27,7 @@ export const useIdeas = () => {
   };
 
   const addIdea = (values: Omit<Idea, "id" | "createdAt" | "updatedAt">) => {
-    const timestamp = new Date();
+    const timestamp = +new Date();
     const id = `${+timestamp}`;
     setLatestId(id);
     setIdeasMap((prev) => {
@@ -36,8 +36,8 @@ export const useIdeas = () => {
         [id]: {
           ...values,
           id,
-          createdAt: timestamp.toISOString(),
-          updatedAt: timestamp.toISOString(),
+          createdAt: timestamp,
+          updatedAt: timestamp,
         },
       };
     });
@@ -51,7 +51,7 @@ export const useIdeas = () => {
     id: string,
     values: { title?: string; description?: string }
   ) => {
-    const timestamp = new Date();
+    const timestamp = +new Date();
 
     const existing = ideasMap[id];
     if (!existing) return;
@@ -69,7 +69,7 @@ export const useIdeas = () => {
           [id]: {
             ...prev[id],
             ...values,
-            updatedAt: timestamp.toISOString(),
+            updatedAt: timestamp,
           },
         };
       });
@@ -84,9 +84,9 @@ export const useIdeas = () => {
     return Object.values(ideasMap).sort((a, b) => {
       switch (sort) {
         case "creation-date-asc":
-          return +new Date(a.createdAt) < +new Date(b.createdAt) ? -1 : 1;
+          return a.createdAt < b.createdAt ? -1 : 1;
         case "creation-date-desc":
-          return +new Date(a.createdAt) > +new Date(b.createdAt) ? -1 : 1;
+          return a.createdAt > b.createdAt ? -1 : 1;
         case "title-asc":
           return a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1;
         case "title-desc":

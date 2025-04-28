@@ -2,8 +2,8 @@ export type Idea = {
   id: string;
   title: string;
   description: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: number;
+  updatedAt: number;
 };
 
 export type SortOptions =
