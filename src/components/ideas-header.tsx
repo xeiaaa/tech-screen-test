@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Select,
   SelectContent,
@@ -7,12 +6,12 @@ import {
   SelectValue,
 } from "./ui/select";
 import AddIdeaDialog from "./add-idea-dialog";
-import { Idea, SortOptions } from "@/types";
+import { Idea, SortOption } from "@/types";
 
 interface IdeasHeaderProps {
   ideas: Idea[];
-  sort: SortOptions;
-  setSort: React.Dispatch<React.SetStateAction<SortOptions>>;
+  sort: SortOption;
+  setSort: (sortOption: SortOption) => void;
   addIdea: (values: Omit<Idea, "id" | "createdAt" | "updatedAt">) => void;
 }
 
@@ -24,16 +23,7 @@ const IdeasHeader = ({ ideas, sort, setSort, addIdea }: IdeasHeaderProps) => {
         <div className="flex max-[445px]:flex-col gap-2 sm:flex-row items-center justify-between">
           <div className="w-full flex gap-2 items-center">
             <span style={{ whiteSpace: "nowrap" }}>Sort by:</span>
-            <Select
-              value={sort}
-              onValueChange={(
-                a:
-                  | "creation-date-asc"
-                  | "creation-date-desc"
-                  | "title-asc"
-                  | "title-desc"
-              ) => setSort(a)}
-            >
+            <Select value={sort} onValueChange={(a: SortOption) => setSort(a)}>
               <SelectTrigger className="min-[445px]:w-[200px] max-sm:grow">
                 <SelectValue placeholder="Sort by:" />
               </SelectTrigger>

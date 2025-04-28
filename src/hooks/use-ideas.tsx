@@ -1,4 +1,4 @@
-import { Idea, SortOptions } from "@/types";
+import { Idea, sortOptions, SortOption } from "@/types";
 import { useMemo, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { toast } from "sonner";
@@ -8,10 +8,20 @@ export const useIdeas = () => {
     "ideas",
     {}
   );
-  const [sort, setSort] = useLocalStorage<SortOptions>(
-    "sort",
-    "creation-date-desc"
-  );
+
+  const getSortFromUrl = (): SortOption => {
+    const urlSort = new URLSearchParams(window.location.search).get("sort");
+
+    if (urlSort && (sortOptions as readonly string[]).includes(urlSort)) {
+      return urlSort as SortOption;
+    }
+
+    return "creation-date-asc";
+  };
+
+  const [sort, _setSort] = useState<SortOption>(getSortFromUrl());
+
+  // used to track the newly created idea for animation purposes
   const [latestId, setLatestId] = useState<string | null>(null);
 
   const removeIdea = (id: string) => {
@@ -78,6 +88,19 @@ export const useIdeas = () => {
         description: "Changes to the idea have been saved.",
       });
     }
+  };
+
+  const setSortUrl = (sortOption: SortOption) => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("sort") !== sortOption) {
+      url.searchParams.set("sort", sortOption);
+      window.history.pushState({}, "", url);
+    }
+  };
+
+  const setSort = (sortOption: SortOption) => {
+    setSortUrl(sortOption);
+    _setSort(sortOption);
   };
 
   const ideas = useMemo(() => {

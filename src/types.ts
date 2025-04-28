@@ -6,8 +6,11 @@ export type Idea = {
   updatedAt: number;
 };
 
-export type SortOptions =
-  | "creation-date-asc"
-  | "creation-date-desc"
-  | "title-asc"
-  | "title-desc";
+export const sortOptions = [
+  "creation-date-asc",
+  "creation-date-desc",
+  "title-asc",
+  "title-desc",
+] as const;
+
+export type SortOption = (typeof sortOptions)[number];
