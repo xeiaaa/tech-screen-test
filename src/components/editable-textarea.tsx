@@ -15,14 +15,14 @@ const EditableTextArea = ({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const DESCRIPTION_MAX_LENGTH = 140;
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(idea.description);
 
   return (
     <div className="relative">
       <InlineEdit
-        placeholder={idea.description}
-        className="w-full"
+        placeholder={idea.description || "Add more details.."}
+        className={`w-full ${!idea.description.trim() && "text-gray-300"}`}
         showControls={false}
         onSave={(e) => {
           const value = (e?.target as HTMLInputElement).value;
