@@ -10,8 +10,15 @@ import {
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { FaTrash } from "react-icons/fa";
+import { cn } from "@/lib/utils";
 
-const DeleteIdeaDialog = ({ handleDelete }: { handleDelete: () => void }) => {
+const DeleteIdeaDialog = ({
+  handleDelete,
+  isVisible,
+}: {
+  handleDelete: () => void;
+  isVisible: boolean;
+}) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -20,7 +27,11 @@ const DeleteIdeaDialog = ({ handleDelete }: { handleDelete: () => void }) => {
         <Button
           variant="outline"
           size="icon"
-          className="p-2 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity rounded-full sticky top-0 right-4"
+          className={cn(
+            "p-2 text-gray-500 transition-opacity rounded-full sticky top-0 right-4",
+            isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+          )}
+          tabIndex={isVisible ? 0 : -1}
           onClick={() => setOpen(true)}
           aria-label="Delete"
         >

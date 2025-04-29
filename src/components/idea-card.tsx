@@ -4,6 +4,7 @@ import { Idea } from "@/types";
 import { InlineEdit } from "rsuite";
 import DeleteIdeaDialog from "./delete-idea-dialog";
 import EditableTextArea from "./editable-textarea";
+import { useRef, useState } from "react";
 
 interface IdeaCardProps {
   idea: Idea;
@@ -16,6 +17,17 @@ interface IdeaCardProps {
 }
 
 const IdeaCard = ({ idea, latestId, editIdea, removeIdea }: IdeaCardProps) => {
+  const [isInteracting, setIsInteracting] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleFocus = () => setIsInteracting(true);
+  const handleBlur = (e: React.FocusEvent) => {
+    // Check if the next focused element is still inside the card
+    if (cardRef.current && !cardRef.current.contains(e.relatedTarget)) {
+      setIsInteracting(false);
+    }
+  };
+
   return (
     <Card
       className={cn(
@@ -23,6 +35,11 @@ const IdeaCard = ({ idea, latestId, editIdea, removeIdea }: IdeaCardProps) => {
         idea.id === latestId ? "animate-highlight" : ""
       )}
       key={idea.id}
+      ref={cardRef}
+      onMouseEnter={() => setIsInteracting(true)}
+      onMouseLeave={() => setIsInteracting(false)}
+      onFocusCapture={handleFocus}
+      onBlurCapture={handleBlur}
     >
       <CardHeader>
         <div className="flex flex-row items-start justify-between">
@@ -39,6 +56,7 @@ const IdeaCard = ({ idea, latestId, editIdea, removeIdea }: IdeaCardProps) => {
             />
           </CardTitle>
           <DeleteIdeaDialog
+            isVisible={isInteracting}
             handleDelete={() => {
               removeIdea(idea.id);
             }}
